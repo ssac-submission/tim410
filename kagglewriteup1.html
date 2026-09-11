@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Import the webpage's stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Load TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <!-- Load Posenet -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+
+ </head>
+
+  <body>
+    <img id='mlb1' width="300" height="300" crossorigin src='http://localhost:3000/image1'/>
+    <canvas id="testCanvas1" width="300" height="300"></canvas>
+    <img id='mlb2' width="300" height="300" crossorigin src='http://localhost:3000/image2'/>
+    <canvas id="testCanvas2" width="300" height="300"></canvas>
+    <h1 id="analysisText1"></h1>
+    <h1 id="analysisText2"></h1>
+
+  
+
+  <!-- Place your code in the script tag below. You can also use an external .js file -->
+  <script>
+    
+    //first detection initialization
+    let flipHorizontal = false;
+    const CANVAS1 = document.getElementById('testCanvas1');
+    const CTX1 = CANVAS1.getContext('2d');
+    let imageElement1 = document.getElementById('mlb1');
+    let imageTensor1 = tf.browser.fromPixels(imageElement1);
+    tf.browser.toPixels(imageTensor1, CANVAS1);
+
+    //shoulder abduction angle initializations
+    let rightShoulderX = 0;
+    let rightShoulderY = 0;
+    let rightElbowX = 0;
+    let rightElbowY = 0;
+    let rightyPitcherShoulderAbductionAngle1 = 0;
+    let rightyPitcherShoulderAbductionAngle2 = 0;
+    let rightyPitcherOppositeSide = 0;
+    let rightyPitcherAdjacentSide = 0;
+
+//function for calculating MLB pitcher shoulder abduction angle
+function calculateShoulderAbductionAngle (opposite, adjacent) {
+  const angleInRadians = Math.atan(opposite / adjacent);
+  const angleInDegrees = angleInRadians * (180 / Math.PI);
+  return angleInDegrees;
+}
+   
+
+    //first posenet detection and drawing to HTML canvas
+    posenet.load().then(function(net) {
+      const pose = net.estimateSinglePose(imageElement1, {
+        flipHorizontal: false
+      });
+      return pose;
+    }).then(function(pose){
+
+    for (let i = 0; i < pose.keypoints.length; i++) {
+    let y = pose.keypoints[i].position.y;
+    let x = pose.keypoints[i].position.x;
+    
+    CTX1.fillStyle = '#00ff00';
+    CTX1.beginPath();
+    CTX1.arc(x, y, 5, 0, 2 * Math.PI);
+    CTX1.fill();
+    
+   
+  //calculating shoulder abduction angle and keypoints
+
+if (pose.keypoints[i].part == "rightShoulder") {
+  rightShoulderX = pose.keypoints[i].position.x;
+  rightShoulderY = pose.keypoints[i].position.y;
+}
+
+if (pose.keypoints[i].part == "rightElbow") {
+  rightElbowX = pose.keypoints[i].position.x;
+  rightElbowY = pose.keypoints[i].position.y;
+}
+ 
+  rightyPitcherOppositeSide = rightElbowX - rightShoulderX;
+  rightyPitcherAdjacentSide = rightElbowY - rightShoulderY;
+
+
+
+  rightyPitcherShoulderAbductionAngle1 = calculateShoulderAbductionAngle(rightyPitcherOppositeSide, rightyPitcherAdjacentSide);
+}
+
+
+console.log(pose);
+console.log("Shoulder abduction angle of John Smoltz is:" + rightyPitcherShoulderAbductionAngle1);
+document.getElementById("analysisText1").textContent = "Pitcher1 Shoulder Abduction Angle: " + rightyPitcherShoulderAbductionAngle1.toFixed() + "\u00B0";
+
+         
+})
+
+
+ 
+    //second detection initialization
+    const CANVAS2 = document.getElementById('testCanvas2');
+    const CTX2 = CANVAS2.getContext('2d');
+    let imageElement2 = document.getElementById('mlb2');
+    let imageTensor2 = tf.browser.fromPixels(imageElement2);
+    tf.browser.toPixels(imageTensor2, CANVAS2);
+
+ 
+   
+   posenet.load().then(function(net) {
+     const pose = net.estimateSinglePose(imageElement2, {
+        flipHorizontal: false
+      });
+      return pose;
+    }).then(function(pose){
+
+    for (let i = 0; i < pose.keypoints.length; i++) {
+    let y = pose.keypoints[i].position.y;
+    let x = pose.keypoints[i].position.x;
+    
+    CTX2.fillStyle = '#00ff00';
+    CTX2.beginPath();
+    CTX2.arc(x, y, 5, 0, 2 * Math.PI);
+    CTX2.fill();
+    
+   
+
+
+if (pose.keypoints[i].part == "rightShoulder") {
+  rightShoulderX = pose.keypoints[i].position.x;
+  rightShoulderY = pose.keypoints[i].position.y;
+}
+
+if (pose.keypoints[i].part == "rightElbow") {
+  rightElbowX = pose.keypoints[i].position.x;
+  rightElbowY = pose.keypoints[i].position.y;
+}
+ 
+  rightyPitcherOppositeSide = rightElbowX - rightShoulderX;
+  rightyPitcherAdjacentSide = rightElbowY - rightShoulderY;
+
+
+
+  rightyPitcherShoulderAbductionAngle2 = calculateShoulderAbductionAngle(rightyPitcherOppositeSide, rightyPitcherAdjacentSide);
+  
+
+}
+
+console.log(pose);
+console.log("Shoulder abduction angle of Aroldis Chapman is:" + rightyPitcherShoulderAbductionAngle2);
+document.getElementById("analysisText2").textContent = "Pitcher2 Shoulder Abduction Angle: " + rightyPitcherShoulderAbductionAngle2.toFixed() + "\u00B0";
+   
+
+
+      
+});
+
+   
+</script>
+
+</body>
+</html>
