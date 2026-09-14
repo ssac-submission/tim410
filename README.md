@@ -1,7 +1,9 @@
-Images used in server.js after PoseNet detects 17 "keypoints":
+Images used in server.js are 1st and 3rd: 
 
-<img width="1000" height="1000" alt="inbox_22824785_d3cdeb28a524f29414b4ca919df82bb7_download (1)" src="https://github.com/user-attachments/assets/bbac4cef-aea6-4ff5-9b7a-30a82d57cc68" />
-<img width="2889" height="2889" alt="inbox_22824785_47804e44ef7d8dc3364139f3ae555a89_download" src="https://github.com/user-attachments/assets/c5616150-4f87-4762-92db-e361241f6e79" />
+
+https://github.com/user-attachments/assets/25ee63f1-3ee2-4d7b-af7f-50e29a5d0dad
+
+
 
 PoseNet detects 17 "keypoints"
 1. A keypoint represents a pixel where a body part is detected in an image that is input into the model.
@@ -11,12 +13,6 @@ PoseNet detects 17 "keypoints"
 5. For an accurate profile of the takeback, right-handed pitchers should be captured from first base, while left-handed pitchers should be captured from third base.
 6. Flip the image as needed in your photo editor when comparing a lefty and righty.
 7. To ensure an accurate comparison between pitchers of shoulder abduction/takeback, capture the image of each pitcher when their glove-hand arm is at maximum or near-maximum extension during the stride phase.
-
-Realtime result of Pose Detection:
-
-
-
-https://github.com/user-attachments/assets/f7d24805-b499-4b01-bc1b-f698a69030ba
 
 
 
