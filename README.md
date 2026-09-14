@@ -21,5 +21,5 @@ PoseNet detects 17 "keypoints"
 
 Note:
 - Chapman has a shoulder abduction angle of 29°. John Smoltz has a shoulder abduction angle of 76°.
-- Smoltz extends his throwing hand backwards at a considerable distance farther from his torso during his takeback than Gausman and Chapman.
-- John Smoltz has required 1 UCL Reconstruction in his career due to UCL injury, while Chapman and Gausman have never suffered UCL injury despite being hard-throwing veterans.
+- Smoltz extends his throwing hand backwards at a considerable distance farther from his torso during his takeback than Kevin Gausman and Chapman.
+- John Smoltz has required 1 UCL Reconstruction in his career due to UCL injury, while Chapman and Gausman have never suffered UCL injury despite being hard-throwing veterans. Ben Joyce has required 1 UCL Reconstruction in his fledgling career and performs an extended takeback with a shoulder abduction angle that nears that of John Smoltz
